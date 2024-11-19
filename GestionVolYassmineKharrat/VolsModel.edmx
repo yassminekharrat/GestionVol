@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dsG3Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Aereport">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="NomAereport" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Avion">
+          <Key>
+            <PropertyRef Name="reference" />
+          </Key>
+          <Property Name="reference" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="marque" Type="nvarchar" MaxLength="20" />
+          <Property Name="nbpassagers" Type="int" />
+          <Property Name="disponible" Type="bit" />
+        </EntityType>
+        <EntityType Name="Vol">
+          <Key>
+            <PropertyRef Name="reference" />
+          </Key>
+          <Property Name="reference" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="refavion" Type="nvarchar" MaxLength="10" />
+          <Property Name="aedepart" Type="int" />
+          <Property Name="aeterm" Type="int" />
+        </EntityType>
+        <Association Name="FK_Vol_Aereport">
+          <End Role="Aereport" Type="Self.Aereport" Multiplicity="0..1" />
+          <End Role="Vol" Type="Self.Vol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aereport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Vol">
+              <PropertyRef Name="aedepart" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vol_Aereport1">
+          <End Role="Aereport" Type="Self.Aereport" Multiplicity="0..1" />
+          <End Role="Vol" Type="Self.Vol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aereport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Vol">
+              <PropertyRef Name="aeterm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vol_Avion">
+          <End Role="Avion" Type="Self.Avion" Multiplicity="0..1" />
+          <End Role="Vol" Type="Self.Vol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Avion">
+              <PropertyRef Name="reference" />
+            </Principal>
+            <Dependent Role="Vol">
+              <PropertyRef Name="refavion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dsG3ModelStoreContainer">
+          <EntitySet Name="Aereport" EntityType="Self.Aereport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Avion" EntityType="Self.Avion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Vol" EntityType="Self.Vol" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Vol_Aereport" Association="Self.FK_Vol_Aereport">
+            <End Role="Aereport" EntitySet="Aereport" />
+            <End Role="Vol" EntitySet="Vol" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vol_Aereport1" Association="Self.FK_Vol_Aereport1">
+            <End Role="Aereport" EntitySet="Aereport" />
+            <End Role="Vol" EntitySet="Vol" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vol_Avion" Association="Self.FK_Vol_Avion">
+            <End Role="Avion" EntitySet="Avion" />
+            <End Role="Vol" EntitySet="Vol" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dsG3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Aereport">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="NomAereport" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Vol" Relationship="Self.FK_Vol_Aereport" FromRole="Aereport" ToRole="Vol" />
+          <NavigationProperty Name="Vol1" Relationship="Self.FK_Vol_Aereport1" FromRole="Aereport" ToRole="Vol" />
+        </EntityType>
+        <EntityType Name="Avion">
+          <Key>
+            <PropertyRef Name="reference" />
+          </Key>
+          <Property Name="reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="marque" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="nbpassagers" Type="Int32" />
+          <Property Name="disponible" Type="Boolean" />
+          <NavigationProperty Name="Vol" Relationship="Self.FK_Vol_Avion" FromRole="Avion" ToRole="Vol" />
+        </EntityType>
+        <EntityType Name="Vol">
+          <Key>
+            <PropertyRef Name="reference" />
+          </Key>
+          <Property Name="reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="refavion" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="aedepart" Type="Int32" />
+          <Property Name="aeterm" Type="Int32" />
+          <NavigationProperty Name="Aereport" Relationship="Self.FK_Vol_Aereport" FromRole="Vol" ToRole="Aereport" />
+          <NavigationProperty Name="Aereport1" Relationship="Self.FK_Vol_Aereport1" FromRole="Vol" ToRole="Aereport" />
+          <NavigationProperty Name="Avion" Relationship="Self.FK_Vol_Avion" FromRole="Vol" ToRole="Avion" />
+        </EntityType>
+        <Association Name="FK_Vol_Aereport">
+          <End Role="Aereport" Type="Self.Aereport" Multiplicity="0..1" />
+          <End Role="Vol" Type="Self.Vol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aereport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Vol">
+              <PropertyRef Name="aedepart" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vol_Aereport1">
+          <End Role="Aereport" Type="Self.Aereport" Multiplicity="0..1" />
+          <End Role="Vol" Type="Self.Vol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Aereport">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Vol">
+              <PropertyRef Name="aeterm" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Vol_Avion">
+          <End Role="Avion" Type="Self.Avion" Multiplicity="0..1" />
+          <End Role="Vol" Type="Self.Vol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Avion">
+              <PropertyRef Name="reference" />
+            </Principal>
+            <Dependent Role="Vol">
+              <PropertyRef Name="refavion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dsG3Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Aereport" EntityType="Self.Aereport" />
+          <EntitySet Name="Avion" EntityType="Self.Avion" />
+          <EntitySet Name="Vol" EntityType="Self.Vol" />
+          <AssociationSet Name="FK_Vol_Aereport" Association="Self.FK_Vol_Aereport">
+            <End Role="Aereport" EntitySet="Aereport" />
+            <End Role="Vol" EntitySet="Vol" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vol_Aereport1" Association="Self.FK_Vol_Aereport1">
+            <End Role="Aereport" EntitySet="Aereport" />
+            <End Role="Vol" EntitySet="Vol" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Vol_Avion" Association="Self.FK_Vol_Avion">
+            <End Role="Avion" EntitySet="Avion" />
+            <End Role="Vol" EntitySet="Vol" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dsG3ModelStoreContainer" CdmEntityContainer="dsG3Entities">
+          <EntitySetMapping Name="Aereport">
+            <EntityTypeMapping TypeName="dsG3Model.Aereport">
+              <MappingFragment StoreEntitySet="Aereport">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="NomAereport" ColumnName="NomAereport" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Avion">
+            <EntityTypeMapping TypeName="dsG3Model.Avion">
+              <MappingFragment StoreEntitySet="Avion">
+                <ScalarProperty Name="reference" ColumnName="reference" />
+                <ScalarProperty Name="marque" ColumnName="marque" />
+                <ScalarProperty Name="nbpassagers" ColumnName="nbpassagers" />
+                <ScalarProperty Name="disponible" ColumnName="disponible" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vol">
+            <EntityTypeMapping TypeName="dsG3Model.Vol">
+              <MappingFragment StoreEntitySet="Vol">
+                <ScalarProperty Name="reference" ColumnName="reference" />
+                <ScalarProperty Name="refavion" ColumnName="refavion" />
+                <ScalarProperty Name="aedepart" ColumnName="aedepart" />
+                <ScalarProperty Name="aeterm" ColumnName="aeterm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

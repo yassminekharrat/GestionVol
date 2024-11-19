@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="dsG3ModelStoreContainer" CdmEntityContainer="dsG3Entities">
+    <EntitySetMapping Name="Aereport">
+      <EntityTypeMapping TypeName="dsG3Model.Aereport">
+        <MappingFragment StoreEntitySet="Aereport">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="NomAereport" ColumnName="NomAereport" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Avion">
+      <EntityTypeMapping TypeName="dsG3Model.Avion">
+        <MappingFragment StoreEntitySet="Avion">
+          <ScalarProperty Name="reference" ColumnName="reference" />
+          <ScalarProperty Name="marque" ColumnName="marque" />
+          <ScalarProperty Name="nbpassagers" ColumnName="nbpassagers" />
+          <ScalarProperty Name="disponible" ColumnName="disponible" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vol">
+      <EntityTypeMapping TypeName="dsG3Model.Vol">
+        <MappingFragment StoreEntitySet="Vol">
+          <ScalarProperty Name="reference" ColumnName="reference" />
+          <ScalarProperty Name="refavion" ColumnName="refavion" />
+          <ScalarProperty Name="aedepart" ColumnName="aedepart" />
+          <ScalarProperty Name="aeterm" ColumnName="aeterm" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

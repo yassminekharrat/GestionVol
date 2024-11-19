@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dsG3Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Aereport">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="NomAereport" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Vol" Relationship="Self.FK_Vol_Aereport" FromRole="Aereport" ToRole="Vol" />
+    <NavigationProperty Name="Vol1" Relationship="Self.FK_Vol_Aereport1" FromRole="Aereport" ToRole="Vol" />
+  </EntityType>
+  <EntityType Name="Avion">
+    <Key>
+      <PropertyRef Name="reference" />
+    </Key>
+    <Property Name="reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="marque" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="nbpassagers" Type="Int32" />
+    <Property Name="disponible" Type="Boolean" />
+    <NavigationProperty Name="Vol" Relationship="Self.FK_Vol_Avion" FromRole="Avion" ToRole="Vol" />
+  </EntityType>
+  <EntityType Name="Vol">
+    <Key>
+      <PropertyRef Name="reference" />
+    </Key>
+    <Property Name="reference" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="refavion" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="aedepart" Type="Int32" />
+    <Property Name="aeterm" Type="Int32" />
+    <NavigationProperty Name="Aereport" Relationship="Self.FK_Vol_Aereport" FromRole="Vol" ToRole="Aereport" />
+    <NavigationProperty Name="Aereport1" Relationship="Self.FK_Vol_Aereport1" FromRole="Vol" ToRole="Aereport" />
+    <NavigationProperty Name="Avion" Relationship="Self.FK_Vol_Avion" FromRole="Vol" ToRole="Avion" />
+  </EntityType>
+  <Association Name="FK_Vol_Aereport">
+    <End Role="Aereport" Type="Self.Aereport" Multiplicity="0..1" />
+    <End Role="Vol" Type="Self.Vol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aereport">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Vol">
+        <PropertyRef Name="aedepart" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Vol_Aereport1">
+    <End Role="Aereport" Type="Self.Aereport" Multiplicity="0..1" />
+    <End Role="Vol" Type="Self.Vol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Aereport">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Vol">
+        <PropertyRef Name="aeterm" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Vol_Avion">
+    <End Role="Avion" Type="Self.Avion" Multiplicity="0..1" />
+    <End Role="Vol" Type="Self.Vol" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Avion">
+        <PropertyRef Name="reference" />
+      </Principal>
+      <Dependent Role="Vol">
+        <PropertyRef Name="refavion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dsG3Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Aereport" EntityType="Self.Aereport" />
+    <EntitySet Name="Avion" EntityType="Self.Avion" />
+    <EntitySet Name="Vol" EntityType="Self.Vol" />
+    <AssociationSet Name="FK_Vol_Aereport" Association="Self.FK_Vol_Aereport">
+      <End Role="Aereport" EntitySet="Aereport" />
+      <End Role="Vol" EntitySet="Vol" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Vol_Aereport1" Association="Self.FK_Vol_Aereport1">
+      <End Role="Aereport" EntitySet="Aereport" />
+      <End Role="Vol" EntitySet="Vol" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Vol_Avion" Association="Self.FK_Vol_Avion">
+      <End Role="Avion" EntitySet="Avion" />
+      <End Role="Vol" EntitySet="Vol" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
